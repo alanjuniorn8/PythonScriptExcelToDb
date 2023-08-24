@@ -3,8 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
 
 from dotenv import dotenv_values
+
 config = dotenv_values(".env")
-print(config['DRIVERNAME'])
 
 url = URL.create(
     drivername=config['DRIVERNAME'],
@@ -16,8 +16,7 @@ url = URL.create(
 
 engine = create_engine(url)
 
-df = pd.read_excel('teste.xlsx')
-print(df)
+df = pd.read_excel(config['SHEET'])
 
 with engine.begin() as connection:
   df.to_sql(name=config['TABLE'], con=connection, if_exists='append', index=False)
